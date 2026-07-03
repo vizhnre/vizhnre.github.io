@@ -35,7 +35,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9 # Uses pnpm v9 (or specify your local major version)
+          version: 9
 
       - name: Detect package manager
         id: detect-package-manager
@@ -63,7 +63,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "22" # <-- Change this to "22" or "22.12.0"
+          node-version: "22" # Explicitly sets Node 22 (Astro 7 safe)
           cache: ${{ steps.detect-package-manager.outputs.manager }}
           cache-dependency-path: |
             ${{ env.BUILD_PATH }}/pnpm-lock.yaml
