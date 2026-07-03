@@ -1,49 +1,55 @@
 ---
-import DefaultLayout from '../layouts/Default.astro';
+import DefaultLayout from "../layouts/Default.astro";
 
 // Use Astro.glob() to fetch all posts, and then sort them by date.
-const posts = (await Astro.glob('./blog/*.{md,mdx}')).sort(
-	(a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf()
+const posts = Object.values(
+  import.meta.glob("./blog/*.{md,mdx}", { eager: true }),
+).sort(
+  (a, b) =>
+    new Date(b.frontmatter.pubDate).valueOf() -
+    new Date(a.frontmatter.pubDate).valueOf(),
 );
 ---
 
 <DefaultLayout>
-	<style>
-		ul {
-			list-style-type: none;
-			padding: unset;
-		}
-		ul li {
-			display: flex;
-			flex-direction: column;
-			margin-bottom: 24px;
-		}
-		ul li time {
-			font-size: 12px;
-			flex: 0 0 0;
-			font-style: italic;
-			color: #595959;
-		}
-		ul li a {
-			font-size: 24px;
-		}
-		ul li a:visited {
-			color: #8e32dc;
-		}
-	</style>
-	<ul>
-		{posts.map((post) => (
-			<li>
-				<a href={post.url}>{post.frontmatter.title}</a>
-				<div>{post.frontmatter.description}</div>
-				<time datetime={post.frontmatter.pubDate}>
-					{new Date(post.frontmatter.pubDate).toLocaleDateString('en-us', {
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric',
-					})}
-				</time>
-			</li>
-		))}
-	</ul>
+  <style>
+    ul {
+      list-style-type: none;
+      padding: unset;
+    }
+    ul li {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+    }
+    ul li time {
+      font-size: 12px;
+      flex: 0 0 0;
+      font-style: italic;
+      color: #595959;
+    }
+    ul li a {
+      font-size: 24px;
+    }
+    ul li a:visited {
+      color: #8e32dc;
+    }
+  </style>
+  <ul>
+    {
+      posts.map((post) => (
+        <li>
+          <a href={post.url}>{post.frontmatter.title}</a>
+          <div>{post.frontmatter.description}</div>
+          <time datetime={post.frontmatter.pubDate}>
+            {new Date(post.frontmatter.pubDate).toLocaleDateString("en-us", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })}
+          </time>
+        </li>
+      ))
+    }
+  </ul>
 </DefaultLayout>
